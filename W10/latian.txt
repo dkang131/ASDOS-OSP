@@ -1,0 +1,7 @@
+Soal Latihan W10
+1. Buatlah function untuk menghitung nilai varians dan standard deviasi data
+tanpa menggunakan function bawaan python
+
+2. Buatlah function untuk menghitung nilai korelasi dan kovarians dari x dan y 
+tanpa menggunakan function bawaan python
+*x dan y bisa berupa nilai random

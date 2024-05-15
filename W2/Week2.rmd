@@ -1,0 +1,198 @@
+---
+title: "Week2_OSP"
+author: "Darren"
+date: "2024-03-04"
+output: html_document
+---
+
+# Read Data
+```{r}
+setwd("C:/Users/darre/Desktop/ASDOS OSP/W2")
+df = read.csv('exercise2.csv', header = T, sep=";");df
+attach(df)
+
+```
+
+# Number 1
+```{r}
+max_x = max(index)
+max_y = max(unemployment)
+subset(Land, index==max_x)
+subset(Land, unemployment==max_y)
+
+min_x = min(index)
+min_y = min(unemployment)
+subset(Land, index==min_x)
+subset(Land, unemployment==min_y)
+
+```
+
+# Number 2
+```{r}
+range_x = max_x - min_x;range_x
+range_y = max_y - min_y;range_y
+```
+
+# Number 3
+```{r}
+quant_x = quantile(index, c(0.25,0.75));quant_x
+quant_y = quantile(unemployment, c(0.25,0.75));quant_y
+```
+
+# Number 4
+```{r}
+med_x = median(index);med_x
+med.x = quantile(index, 0.5);med.x
+med_y = median(unemployment);med_y
+med.y = quantile(unemployment, 0.5);med.y
+```
+
+# Number 5
+```{r}
+qdiff_x = quant_x[2]-quant_x[1];qdiff_x
+qdiff_y = quant_y[2]-quant_y[1];qdiff_y
+```
+
+# Number 6
+```{r}
+mean_x = mean(index);mean_x
+mean.x = sum(index)/length(index);mean.x
+mean_y = mean(unemployment);mean_y
+mean.y = sum(unemployment)/length(unemployment)
+```
+
+# Number 7
+```{r}
+mad_x = median(abs(index- med_x));mad_x
+mad_y = median(abs(unemployment - med_y));mad_y
+```
+
+# Number 8
+```{r}
+var_x = var(index)
+var.x = sum((index - mean_x)^2) / (length(index) - 1)
+var_y = var(unemployment)
+var.y = sum((unemployment - mean_y)^2) / (length(unemployment) - 1)
+
+```
+
+# Number 9
+```{r}
+std_x = sqrt(var_x)
+std.x = sd(index)
+std_y = sqrt(var_y)
+std.y = sd(unemployment)
+```
+
+# Number 10
+```{r}
+par(mfrow=c(1,2))
+boxplot(index, main="Boxplot Index", xlab = "index")
+boxplot(unemployment, main="Boxplot Unemployment", xlab = "unemployment")
+hist(index, main = "Histogram Index")
+hist(unemployment, main = "Histogram Unemployment")
+density_x = density(index)
+density_y = density(unemployment)
+plot(density_x, main = "Kernel Density Estimator Index")
+plot(density_y, main = "Kernel Density Estimator Unemployment")
+ecdf_x = ecdf(index)
+ecdf_y = ecdf(unemployment)
+plot(ecdf_x, xlab = "index", main = "EDF Index")
+plot(ecdf_y, xlab = "unemployment", main = "EDF Unemployment")
+```
+
+# Number 11
+```{r}
+cov_xy = cov(index, unemployment);cov_xy
+xy_cov = (1/(length(index) - 1)) * sum(index*unemployment) - 
+  ((length(index)/(length(index) - 1)) * (mean_x*mean_y));xy_cov
+cov_xx = cov(index, index);cov_xx
+cov_yy = cov(unemployment, unemployment);cov_yy
+dframe = data.frame(index, unemployment);dframe
+cov.xy = cov(dframe);cov.xy
+```
+
+# Number 12
+```{r}
+cor = cor(index,unemployment);cor
+cor_xy = cov_xy / sqrt(cov_xx * cov_yy); cor_xy
+```
+
+# Number 13
+```{r}
+rank_x = rank(index);rank_x
+rank_y = rank(unemployment);rank_y
+```
+
+# Number 14
+```{r}
+cor_rank = cor(rank_x, rank_y);cor_rank
+r_rank = sum((rank_x-mean(rank_x))*(rank_y-mean(rank_y))) / 
+  sqrt(sum((rank_x-mean(rank_x))^2) * sum((rank_y-mean(rank_y))^2));r_rank
+```
+
+# Number 15
+```{r}
+alpha = 0.05
+ci_x = c(mean_x - (qnorm(1-alpha/2)*std_x)/sqrt(length(index)), 
+         mean_x + (qnorm(1-alpha/2)*std_x)/sqrt(length(index)))
+
+ci_y = c(mean_y - (qnorm(1-alpha/2)*std_y)/sqrt(length(unemployment)), 
+         mean_y + (qnorm(1-alpha/2)*std_y)/sqrt(length(unemployment)))
+ci_x
+ci_y
+```
+
+# Number 16
+```{r}
+t.test(index, alternative = "g", mu = 3)
+
+t_x = (mean_x-3)/std_x * sqrt(length(index));t_x
+pt(t_x, df = length(index) - 1, lower.tail = F)
+# if pval < alpha -> tolak H0
+ci_t = c(mean_x - 1/sqrt(length(index))* qt(1-alpha, length(index)-1) * std_x, Inf);ci_t
+```
+
+# Number 17
+```{r}
+t.test(index, unemployment, mu = 0, alternative = "t", var.equal = T)
+
+t_xy = (mean_x - mean_y) / sqrt((length(index)+length(unemployment))/(length(index)*length(unemployment))*
+                              ((length(index)-1)*var_x+(length(unemployment)-1)*var_y)/(length(index)+length(unemployment)-2));t_xy
+
+2*pt(t_xy, df = length(index)+length(unemployment)-2)
+# if pval < alpha -> tolak H0
+
+# daerah penolakan
+c(-qt(1-alpha/2, df = length(index)+length(unemployment)-2), qt(1-alpha/2, df = length(index)+length(unemployment)-2))
+
+if(-qt(1-alpha/2, df = length(index)+length(unemployment)-2) <= t_xy && t_xy <= qt(1-alpha/2, df = length(index)+length(unemployment)-2)){
+  print("Gagal Tolak H0")
+}else{
+  print("Tolak H0")
+}
+
+if(t_xy <= -qt(alpha/2, df = length(index)+length(unemployment)-2) || t_xy >= qt(alpha/2, df = length(index)+length(unemployment)-2)){
+  print("Tolak H0")
+}else{
+  print("Gagal Tolak H0")
+}
+```
+
+# Number 18
+```{r}
+var.test(index, unemployment)
+
+ftest = var_x / var_y
+pf(ftest, df1 = length(index), df2 = length(unemployment))
+# if pf < alpha -> tolak H0
+
+# daerah penolakan
+c(qf(1-alpha/2, df1 = length(index)-1, df2 = length(unemployment)-1), qf(alpha/2, df1 = length(index)-1, df2 = length(unemployment)-1))
+
+if(ftest <= qf(1-alpha/2, df1 = length(index)-1, df2 = length(unemployment)-1) || ftest >= qf(alpha/2, df1 = length(index)-1, df2 = length(unemployment)-1)){
+  print("Tolak H0")
+}else{
+  print("Gagal Tolak H0")
+}
+```

@@ -1,0 +1,65 @@
+---
+title: "Week6_Praktikum"
+author: "Darren"
+date: "2024-04-02"
+output: html_document
+---
+
+Dalam statistika, seringkali kita menemukan konsep **uji hipotesis**, dimana uji 
+hipotesis ini digunakan untuk menguji apakah dengan informasi yang ada, kita memiliki 
+bukti kuat untuk menolak $H_0$ sebagai *null hypothesis* atau gagal untuk menolak $H_0$ 
+yang berarti $H_1$ sebagai *alternative hypothesis* diterima. Di R, anda bisa 
+melakukan uji mean^[Varians tidak diketahui] ini dengan `t.test()` selengkapnya dapat anda 
+cek  [di sini](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/t.test)
+![T-test](https://i.ytimg.com/vi/PUm3oq2lQWs/maxresdefault.jpg)
+
+
+# Header 1
+- one item
+- one item
+- one item
+    - one item
+    - one item
+    
+## Header 2
+1. the first item
+2. the second item
+3. the third item
+
+### Header 3
+> "I thoroughly disapprove of duels. If a man should challenge me,
+  I would take him kindly and forgivingly by the hand and lead him
+  to a quiet place and kill him."
+>
+> --- Mark Twain
+
+#### Header 4
+$\frac{1}{n}\sum^{n}_{i=1}x_i$
+
+```{r}
+df = iris
+head(df)
+summary(df)
+```
+
+```{r, include=TRUE}
+par(mar = c(4, 4, 0.1, 0.1))
+plot(cars, pch = 19, type = "b")
+```
+
+```{r, include=FALSE}
+par(mar = c(4, 4, 0.1, 0.1))
+plot(cars, pch = 19)
+```
+
+```{r, echo=TRUE}
+par(mar = c(4, 4, 0.1, 0.1))
+plot(pressure, pch = 19, type = "b")
+plot(cars, pch = 19)
+```
+
+```{r, echo=TRUE}
+par(mfrow = c(2,1))
+plot(pressure, pch = 19, type = "b")
+plot(cars, pch = 19)
+```

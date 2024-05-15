@@ -1,0 +1,198 @@
+---
+title: "Week1_OSP"
+author: "Darren"
+date: "2024-03-05"
+output: html_document
+---
+
+# Set Working Directory
+## Bakal berbeda disetiap orang lokasi WD nya
+```{r}
+setwd("C:/Users/darre/Desktop/ASDOS OSP/W1")
+```
+
+# Number 1
+```{r}
+word1 = "slumdog"
+word2 = "millionaire"
+print(word1)
+print(word2)
+print(paste(word1, word2))
+```
+
+# Number 2
+```{r}
+aa = seq(1,19, by=2)
+a = aa[-c(5,8)]
+a
+```
+
+# Number 3
+```{r}
+b <-  2^(1:8); b
+```
+
+# Number 4
+```{r}
+c <- (1:8)^2; c
+```
+
+# Number 5
+```{r}
+which(c == b) 
+# hanya akan keluar index posisi keberapa datanya sama
+# untuk melihat data yang sama bisa menggunakan syntax dibawah ini
+b[which(b==c)]
+c[which(b==c)]
+```
+
+# Number 6
+```{r}
+M.c <- cbind(b,c);M.c
+dim(M.c)
+M.c[7,]
+```
+
+# Number 7
+```{r}
+M.r <- rbind(a,b);M.r
+rownames(M.r) <- letters[1:2]
+colnames(M.r) <- LETTERS[19:26]
+M.r
+```
+
+# Number 8
+```{r}
+# bisa menggunakan salah satu cara aja
+M.r[, -5]
+M.r[, colnames(M.r) != "W"]
+```
+
+# Number 9
+```{r}
+M.r > 12 # menghasilkan TRUE atau FALSE dalam matrix M.r
+M.r[M.r > 12] # menghasilkan data dari matrix M.r yang lebih dari 12
+```
+
+# Number 10
+```{r}
+x1 <- seq(-3,3, by=0.5)
+exp(-x1)
+```
+
+# Number 11
+```{r}
+d <- (1:100);d
+# bisa menggunakan array atau rep
+e <- array(7,100);e
+e1 <- rep(7,100);e1
+```
+
+# Number 12
+```{r}
+D = matrix(c(1:100),10,10);D
+E = matrix(c(1/d),10,10,byrow=T);E
+```
+
+# Number 13
+```{r}
+D + E
+D - E
+D %*% E
+D * E
+```
+
+# Number 14
+```{r}
+P <- D %*% E
+P[row(P) == col(P)]
+```
+
+# Number 15
+```{r}
+x <- c(-10, 0, 0.1, 10, 1000, 100000)
+y1 <- x^5 + x^4 + x^3 + x^2 + x+1;y1
+y2 <- 1 + x*(1 + x*( 1+ x*( 1+x*( 1+x ))));y2
+```
+
+# Number 16
+```{r}
+grid <- seq(0,2*pi, length.out=10);grid
+sin.grid <- sin(grid)
+cos.grid <- cos(grid)
+tan.grid <- tan(grid)
+diff.grid <- sin.grid/cos.grid - tan.grid
+diff.grid
+tan.grid
+sin.grid/cos.grid
+```
+
+# Number 17
+```{r}
+price = c(2,3,5,3,2,5,7,4,2,5)
+returns = diff(log(price));returns
+return = log(price[-1]/price[-length(price)]);return # ingat log(a)-log(b) = log(a/b)
+```
+
+# Number 18
+```{r}
+ch.points = c(1,1,1,1,1,2,2,2,2,3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,6,6,6,6,6)
+which(diff(ch.points) == 1)
+```
+
+# Number 19
+```{r}
+# menggunakan hasil sin pada nomor 16
+length(which(sin.grid > 0)) / length(which(sin.grid < 0))
+```
+
+# Number 20
+```{r}
+A = matrix(c(-1,0.4,-4.3,0.03,0.24,
+             3.71,-1.81,1.71,3.9,-0.01,
+             2.8,-1.96,0.68,0.41,2.1,
+             0.01,1.84,0.11,0.02,2.87,
+             1.19,1.74,3.44,1.05,-3.57),5,5,byrow=F)
+A
+```
+
+# Number 21
+```{r}
+det(A)
+```
+
+# Number 22
+```{r}
+inv_A = solve(A);inv_A
+inv_A %*% A
+```
+
+# Number 23
+```{r}
+library(fBasics) # mengaktifkan packages
+
+B = pascal(3);B
+C = matrix(1:9,nrow = 3, ncol = 3);C
+D = B # membuat diagonal baru D agar B tidak hilang
+# diagonal tidak ikut tukar
+B[upper.tri(B, diag = F)] = C[upper.tri(C, diag = F)];B
+C[upper.tri(C, diag = F)] = D[upper.tri(D, diag = F)];C
+```
+
+```{r}
+B = pascal(3)
+C = matrix(1:9,nrow = 3, ncol = 3)
+D = B
+# diagonal ikut tukar
+B[upper.tri(B, diag = T)] = C[upper.tri(C, diag = T)];B
+C[upper.tri(C, diag = T)] = D[upper.tri(D, diag = T)];C
+```
+
+```{r}
+B = pascal(3)
+C = matrix(1:9,nrow = 3, ncol = 3)
+# mengganti matrix segitiga bawah menjadi 0
+B[lower.tri(B, diag = F)] = 0;B
+C[lower.tri(C, diag = F)] = 0;C
+```
+
